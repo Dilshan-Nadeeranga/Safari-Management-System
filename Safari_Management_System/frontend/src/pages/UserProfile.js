@@ -16,7 +16,7 @@ const UserProfile = () => {
     email: "",
     profilePicture: "",
   });
-
+//Dilshan nadeeranga
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (!storedUser) {
