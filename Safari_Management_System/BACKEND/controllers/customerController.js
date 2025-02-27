@@ -1,22 +1,22 @@
 const Customer = require('../models/Customer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config();
 
 // Register a new customer
 exports.registerCustomer = async (req, res) => {
     try {
         const { name, Lname, Gender, Phonenumber1, Phonenumber2, email, password } = req.body;
+        const profilePicture = req.file ? req.file.path : ''; // Store profile picture path
 
-        // Check if the email is already registered
+        // Check if email is already registered
         let existingCustomer = await Customer.findOne({ email });
         if (existingCustomer) {
             return res.status(400).json({ message: 'Email already registered' });
         }
 
-        // Hash the password before saving
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new customer
         const newCustomer = new Customer({
@@ -27,6 +27,7 @@ exports.registerCustomer = async (req, res) => {
             Phonenumber2,
             email,
             password: hashedPassword,
+            profilePicture
         });
 
         await newCustomer.save();
@@ -40,29 +41,35 @@ exports.registerCustomer = async (req, res) => {
 exports.loginCustomer = async (req, res) => {
     try {
         const { email, password } = req.body;
-
-        // Check if the customer exists
         const customer = await Customer.findOne({ email });
+
         if (!customer) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // Compare password
         const isMatch = await bcrypt.compare(password, customer.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // Generate a JWT token
         const token = jwt.sign({ id: customer._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: 'Login successful', token });
+        res.status(200).json({
+            message: 'Login successful',
+            token,
+            user: {
+                id: customer._id,
+                name: customer.name,
+                email: customer.email,
+                profilePicture: customer.profilePicture
+            }
+        });
     } catch (error) {
         res.status(500).json({ error: 'Error logging in' });
     }
 };
 
-// Get customer details by ID
+// Get customer by ID
 exports.getCustomerById = async (req, res) => {
     try {
         const customer = await Customer.findById(req.params.id);
@@ -78,7 +85,13 @@ exports.getCustomerById = async (req, res) => {
 // Update customer details
 exports.updateCustomer = async (req, res) => {
     try {
-        const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        let updateData = req.body;
+
+        if (req.file) {
+            updateData.profilePicture = req.file.path; // Update profile picture if new one is uploaded
+        }
+
+        const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, updateData, { new: true });
         if (!updatedCustomer) {
             return res.status(404).json({ message: 'Customer not found' });
         }

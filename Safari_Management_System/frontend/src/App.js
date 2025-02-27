@@ -2,19 +2,23 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
-//import Homepage from "./pages/Homepage/index.js";
+import LoginForm from "./pages/LoginForm.js"
 import Homepage from "./pages/Homepage.js"
-//import "./pages/Homepage/styles.css"; // Importing the custom CSS file
-//import Login from "./Componets/LoginForm.js";
-//import RegisterForm from "./Componets/RegisterForm.js";
+import RegistrationForm from "./pages/RegisterForm.js"
+import UserHomepage from "./pages/UserHomepage.js"
+import UserProfile from "./pages/UserProfile.js"
+
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/LoginForm" element={<LoginForm />} />
+          <Route path="/RegistrationForm" element={<RegistrationForm />} />
           <Route path="/" element={<Homepage />} /> 
-          
+          <Route path="/UserHomepage" element={<UserHomepage />} />
+          <Route path="/UserProfile" element={<UserProfile />} />
 
           
           

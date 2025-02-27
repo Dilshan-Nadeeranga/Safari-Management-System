@@ -1,6 +1,6 @@
 const express = require('express');
-//const router = require("express").Router();
-let Booking = require("../models/Customer");
+const multer = require('multer');
+const path = require('path');
 const {
     registerCustomer,
     loginCustomer,
@@ -11,8 +11,17 @@ const {
 
 const router = express.Router();
 
-// Register a new customer
-router.post('/register', registerCustomer);
+// Multer Storage Configuration
+const storage = multer.diskStorage({
+    destination: './uploads/', 
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage });
+
+// Register a new customer (with profile picture upload)
+router.post('/register', upload.single('profilePicture'), registerCustomer);
 
 // Login customer
 router.post('/login', loginCustomer);
@@ -20,8 +29,8 @@ router.post('/login', loginCustomer);
 // Get customer by ID
 router.get('/:id', getCustomerById);
 
-// Update customer details
-router.put('/:id', updateCustomer);
+// Update customer details (with profile picture upload)
+router.put('/:id', upload.single('profilePicture'), updateCustomer);
 
 // Delete customer
 router.delete('/:id', deleteCustomer);

@@ -115,11 +115,15 @@ body {
 }
 
 .filter-search-btn {
+  width: auto; /* Ensure the button doesn't stretch */
+  padding: 10px 20px; /* Adjust padding as needed */
   background-color: #f1c40f; /* Golden yellow */
   border: none;
-  padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.3s ease;
 }
 

@@ -4,12 +4,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const app = express();
+const path = require('path');
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8070;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const URL = process.env.MONGODB_URL;
 

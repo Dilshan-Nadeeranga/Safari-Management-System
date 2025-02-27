@@ -38,6 +38,10 @@ const CustomerSchema = new Schema({
         required: true,
         minlength: 6, // Minimum password length
     },
+    profilePicture: {
+        type: String, // URL to the profile picture
+        required: false,
+    },
 });
 
 // Create a method to compare passwords during login

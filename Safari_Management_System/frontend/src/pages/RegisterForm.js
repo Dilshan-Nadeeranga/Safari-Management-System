@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../Componets/CSS/LoginForm.css'; // Reuse the external CSS file
+import axios from 'axios'; // Import axios to make API requests
 
 const RegisterForm = () => {
   const [fullName, setFullName] = useState('');
@@ -7,15 +8,49 @@ const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Full Name:', fullName);
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+
+    // Basic validation
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
+    // Clear previous error and success message
+    setError('');
+    setSuccessMessage('');
+
+    // Prepare customer data
+    const customerData = {
+      name: fullName,
+      Lname: username,
+      Gender: 'Not Provided', // Can be updated if you want to add gender
+      Phonenumber1: null, // Add phone number fields as required
+      Phonenumber2: null, // Add phone number fields as required
+      email: email,
+      password: password
+    };
+
+    try {
+      // Make the API request to the backend
+      const response = await axios.post('http://localhost:8070/customerRoutes/register', customerData);
+
+      // Handle success
+      if (response.status === 201) {
+        setSuccessMessage('Registration successful! You can now login.');
+      }
+    } catch (error) {
+      // Handle error
+      if (error.response) {
+        setError(error.response.data.message || 'An error occurred during registration');
+      } else {
+        setError('Network error, please try again later.');
+      }
+    }
   };
 
   return (
@@ -72,9 +107,11 @@ const RegisterForm = () => {
             required
           />
         </div>
+        {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
         <button type="submit">Register</button>
       </form>
-      <p>Yes, I have an account? <a href="/login">Login</a></p>
+      <p>Yes, I have an account? <a href="/LoginForm">Login</a></p>
     </div>
   );
 };

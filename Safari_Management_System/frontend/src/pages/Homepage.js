@@ -41,7 +41,7 @@ function HomePage() {
         "You need to log in before booking a safari. Do you want to proceed to the login page?"
       );
       if (proceed) {
-        navigate("/Login", { state: { safari } });
+        navigate("/LoginForm", { state: { safari } });
       }
     } else {
       navigate("/BookSafari", { state: { safari } });
@@ -107,7 +107,7 @@ function HomePage() {
 
   const handleLoginIn = () => {
     sessionStorage.removeItem("token");
-    navigate("/login", { replace: true });
+    navigate("/LoginForm", { replace: true });
   };
 
   return (
@@ -153,8 +153,8 @@ function HomePage() {
                     Account
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-                    <li><a className="dropdown-item" href="/login">Login</a></li>
-                    <li><a className="dropdown-item" href="/register">Register</a></li>
+                    <li><a className="dropdown-item" href="/LoginForm">Login</a></li>
+                    <li><a className="dropdown-item" href="/RegistrationForm">Register</a></li>
                   </ul>
                 </li>
               </ul>
