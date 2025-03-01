@@ -26,8 +26,8 @@ connection.once("open", () => {
 });
 
 //Models
-const User = require("./routs/customerRoutes.js");
-const BookingRouter = require("./routs/Booking.js");
+const User = require("./routes/customerRoutes.js");
+const BookingRouter = require("./routes/Booking.js");
 
     //http://Localhost:8070/Booking
 app.use("/Booking",BookingRouter);

@@ -20,7 +20,7 @@ const UserHomepage = () => {
       <header className="header">
         <div className="logo">SafariGo</div>
         <nav className="nav">
-          <a href="/">Home</a>
+          <a href="/UserHomepage">Home</a>
           <a href="/discover">Discover</a>
           <a href="/activities">Activities</a>
           <a href="/about">About</a>
@@ -45,7 +45,7 @@ const UserHomepage = () => {
         </div>
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-                    <li><a className="dropdown-item" href="/LoginForm">Logout Profile</a></li>
+                    <li><a className="dropdown-item" href="/">Logout Profile</a></li>
                   </ul>
                 </li>
         {/*dropdown*/}
