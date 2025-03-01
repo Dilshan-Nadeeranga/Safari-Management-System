@@ -6,7 +6,7 @@ import LoginForm from "./pages/LoginForm.js"
 import Homepage from "./pages/Homepage.js"
 import RegistrationForm from "./pages/RegisterForm.js"
 import UserHomepage from "./pages/UserHomepage.js"
-import UserProfile from "./pages/UserProfile.js"
+//import UserProfile from "./pages/UserProfile.js"
 //import UpdateProfile from "./pages/UpdateProfile.js"
 
 
@@ -19,7 +19,7 @@ function App() {
           <Route path="/RegistrationForm" element={<RegistrationForm />} />
           <Route path="/" element={<Homepage />} /> 
           <Route path="/UserHomepage" element={<UserHomepage />} />
-          <Route path="/UserProfile" element={<UserProfile />} />
+          {/*<Route path="/UserProfile" element={<UserProfile />} />*/}
           
           
           
