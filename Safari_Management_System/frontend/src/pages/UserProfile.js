@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../Componets/CSS/Profile.css";  // ✅ Profile styles applied only here
+import "../Componets/CSS/Profile.css";
 import UpdateProfile from "./UpdateProfile";
 
 const UserProfile = () => {
@@ -15,26 +15,32 @@ const UserProfile = () => {
 
   const fetchUserData = async () => {
     try {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+        const storedUser = JSON.parse(localStorage.getItem("user"));
 
-      if (!storedUser || !storedUser._id) {
-        navigate("/LoginForm");
-        return;
-      }
+        console.log("Stored User in Local Storage:", storedUser);
 
-      console.log("Stored User:", storedUser);
+        if (!storedUser || !storedUser._id) {
+            console.error("User ID is missing in localStorage. Redirecting to login.");
+            navigate("/LoginForm");
+            return;
+        }
 
-      const response = await axios.get(`http://localhost:8070/customerRoutes/${storedUser._id}`);
+        console.log("User ID:", storedUser._id); // Display the user ID in console
 
-      if (response.status === 200) {
-        setUser(response.data);
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
+        const response = await axios.get(`http://localhost:8070/customerRoutes/${storedUser._id}`);
+
+        console.log("API Response:", response.data);
+
+        if (response.status === 200) {
+            setUser(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+        }
     } catch (error) {
-      console.error("Error fetching user data:", error);
-      alert("Failed to fetch user data. Please try again.");
+        console.error("Error fetching user data:", error);
+        alert("Failed to fetch user data. Please try again.");
     }
-  };
+};
+
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete your account?")) {

@@ -58,12 +58,13 @@ exports.loginCustomer = async (req, res) => {
             message: 'Login successful',
             token,
             user: {
-                id: customer._id,
+                _id: customer._id,  // ✅ Correct key name
                 name: customer.name,
                 email: customer.email,
                 profilePicture: customer.profilePicture
             }
         });
+        
     } catch (error) {
         res.status(500).json({ error: 'Error logging in' });
     }

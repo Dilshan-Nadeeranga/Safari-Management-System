@@ -37,15 +37,16 @@ const UserHomepage = () => {
                     aria-expanded="false"
                   >
                     <div className="user-profile" onClick={() => navigate('/UserProfile')}>
-          {user ? (
-            <span className="username">{user.name}</span>
-          ) : (
-            <a href="/LoginForm">Login</a>
-          )}
-        </div>
+                      {user ? (
+                      <span className="username">{user.name}</span>
+                      ) : (
+                      <a href="/LoginForm">Login</a>
+                      )}
+                    </div>
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="profileDropdown">
                     <li><a className="dropdown-item" href="/">Logout Profile</a></li>
+                    <li><a className="dropdown-item" href="/UserProfile">User Profile</a></li>
                   </ul>
                 </li>
         {/*dropdown*/}

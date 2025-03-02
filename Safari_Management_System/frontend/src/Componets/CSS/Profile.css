@@ -330,10 +330,4 @@ body {
   background-color: #c0392b;
 }
 
-/* Blur Background Effect - Only User Profile */
-.profile-page.blur-background .main-content {
-  filter: blur(3px); /* Adjust blur strength */
-  pointer-events: none; /* Prevent interactions with the background */
-}
-
 
