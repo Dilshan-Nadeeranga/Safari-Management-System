@@ -15,17 +15,24 @@ const UserProfile = () => {
 
   const fetchUserData = async () => {
     try {
-        const storedUser = JSON.parse(localStorage.getItem("user"));
+        const storedUserString = localStorage.getItem("user");
 
-        console.log("Stored User in Local Storage:", storedUser);
-
-        if (!storedUser || !storedUser._id) {
-            console.error("User ID is missing in localStorage. Redirecting to login.");
+        if (!storedUserString) {
+            console.error("No user found in localStorage. Redirecting to login.");
             navigate("/LoginForm");
             return;
         }
 
-        console.log("User ID:", storedUser._id); // Display the user ID in console
+        const storedUser = JSON.parse(storedUserString);
+        console.log("Stored User in Local Storage:", storedUser);
+
+        if (!storedUser._id) {
+            console.error("User ID is missing in localStorage.");
+            navigate("/LoginForm");
+            return;
+        }
+
+        console.log("User ID:", storedUser._id);
 
         const response = await axios.get(`http://localhost:8070/customerRoutes/${storedUser._id}`);
 
@@ -40,6 +47,7 @@ const UserProfile = () => {
         alert("Failed to fetch user data. Please try again.");
     }
 };
+
 
 
   const handleDelete = async () => {
